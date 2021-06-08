@@ -14,10 +14,11 @@ public class P04179 {
     static int r, c;
 
     static String[][] map;
-    static int[][] cost;
+    static int[][] fireCost;
+    static int[][] jihoonCost;
     static boolean[][] visited;
-    static Edge jihoon;
-    static Edge fire;
+    static Queue<Edge> jihoonQueue;
+    static Queue<Edge> fireQueue;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,7 +28,8 @@ public class P04179 {
         c = Integer.parseInt(st.nextToken());
 
         map = new String[r][c];
-        cost = new int[r][c];
+        fireCost = new int[r][c];
+        jihoonCost = new int[r][c];
         visited = new boolean[r][c];
 
         for (int i = 0; i < r; i++) {
@@ -38,41 +40,84 @@ public class P04179 {
     }
 
     public static void dfs() {
-        Queue<Edge> jihoonQueue = new LinkedList<>();
-        Queue<Edge> fireQueue = new LinkedList<>();
+        jihoonQueue = new LinkedList<>();
+        fireQueue = new LinkedList<>();
 
         int[] dr = {1, 0, -1, 0};
         int[] dc = {0, 1, 0, -1};
 
-        findJihoonAndFire();
+        findFire();
 
-        jihoonQueue.offer(new Edge(jihoon.r, jihoon.c));
-        fireQueue.offer(new Edge(fire.r, fire.c));
-
-        while (!jihoonQueue.isEmpty()) {
-            Edge current = jihoonQueue.poll();
+        while (!fireQueue.isEmpty()) {
+            Edge current = fireQueue.poll();
 
             for (int i = 0; i < 4; i++) {
                 int rr = current.r + dr[i];
                 int cc = current.c + dc[i];
 
-                if (map[rr][cc].equals("#")) {
+                if (rr < 0 || cc < 0 || rr >= r || cc >= c) {
+                    continue;
+                }
+                if (map[rr][cc].equals("#") || visited[rr][cc]) {
+                    continue;
+                }
+
+                visited[rr][cc] = true;
+                fireCost[rr][cc] = fireCost[current.r][current.c] + 1;
+                fireQueue.add(new Edge(rr, cc));
+            }
+        }
+
+        visited = new boolean[r][c];
+
+        findJihoon();
+
+        while (!jihoonQueue.isEmpty()) {
+            Edge current = jihoonQueue.poll();
+            visited[current.r][current.c] = true;
+
+            for (int i = 0; i < 4; i++) {
+                int rr = current.r + dr[i];
+                int cc = current.c + dc[i];
+
+                if (rr < 0 || cc < 0 || rr >= r || cc >= c) {
+                    System.out.println(jihoonCost[current.r][current.c] + 1);
+                    return;
+                }
+                if (fireCost[rr][cc] == -1 || (fireCost[rr][cc] != 0 && jihoonCost[current.r][current.c] + 1 >= fireCost[rr][cc])) {
+                    continue;
+                }
+                if (map[rr][cc].equals("#") || visited[rr][cc]) {
+                    continue;
+                }
+
+                visited[rr][cc] = true;
+                jihoonCost[rr][cc] = jihoonCost[current.r][current.c] + 1;
+                jihoonQueue.add(new Edge(rr, cc));
+            }
+        }
+
+        System.out.println("IMPOSSIBLE");
+    }
+
+    public static void findFire() {
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (map[i][j].equals("F")) {
+                    fireQueue.offer(new Edge(i, j));
+                    visited[i][j] = true;
                     continue;
                 }
             }
         }
     }
 
-    public static void findJihoonAndFire() {
+    public static void findJihoon() {
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
                 if (map[i][j].equals("J")) {
-                    jihoon = new Edge(i, j);
-                    continue;
-                }
-                if (map[i][j].equals("F")) {
-                    fire = new Edge(i, j);
-                    continue;
+                    jihoonQueue.offer(new Edge(i, j));
+                    return;
                 }
             }
         }
