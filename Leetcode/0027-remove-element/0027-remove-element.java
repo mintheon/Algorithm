@@ -13,11 +13,7 @@ class Solution {
                 count++;
             }
         }
-
-        for(int i = nums.length - 1; i > count; i--) {
-            nums[i] = '_';
-        }
-
+        
         return count;
     }
 }
