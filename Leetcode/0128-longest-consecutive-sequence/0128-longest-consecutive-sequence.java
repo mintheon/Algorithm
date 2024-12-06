@@ -6,10 +6,7 @@ class Solution {
             numSet.add(num);
          }
 
-        int longestSize = 1;
-        if(numSet.size() == 0) {
-            return 0;
-        }
+        int longestSize = 0;
 
         for(int num : numSet) {
             if(!numSet.contains(num - 1)) {
