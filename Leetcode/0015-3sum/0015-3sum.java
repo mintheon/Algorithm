@@ -1,40 +1,30 @@
 
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        Set<List<Integer>> answer = new HashSet<>();
-        int startPoint, endPoint;
-        int sum = 0;
-
         Arrays.sort(nums);
+        
+        Set<List<Integer>> answer = new HashSet<>();
 
         for(int i = 0; i < nums.length - 2; i++) {
+            int left = i + 1;
+            int right = nums.length - 1;
 
-            startPoint = i + 1;
-            endPoint = nums.length - 1;
-
-            while(startPoint < endPoint) {
-                sum = nums[i] + nums[startPoint] + nums[endPoint];
+            while(left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
 
                 if(sum < 0) {
-                    startPoint++;
-                } else if (sum > 0) {
-                    endPoint--;
-                } else {
-                    answer.add(Arrays.asList(nums[i], nums[startPoint], nums[endPoint]));
+                    left++;
+                } else if(sum > 0) {
+                    right--;
+                } else{
+                    answer.add(List.of(nums[i], nums[left], nums[right]));
 
-                    //중복된 값 건너뛰기
-                    while (startPoint < endPoint && nums[startPoint] == nums[startPoint + 1])
-                        startPoint++;
-                    
-                    while (startPoint < endPoint && nums[endPoint] == nums[endPoint - 1])
-                        endPoint--;
-
-                    startPoint++;
-                    endPoint--;
+                    left++;
+                    right--;
                 }
             }
         }
 
-        return new ArrayList(answer);
+        return new ArrayList<>(answer);
     }
 }
