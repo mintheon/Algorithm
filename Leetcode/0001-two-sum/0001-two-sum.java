@@ -1,4 +1,9 @@
 class Solution {
+    /**
+    공간복잡도: O(n)
+    시간복잡도: O(n)
+     */
+
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> numMap = new HashMap<>();
 
@@ -7,15 +12,12 @@ class Solution {
         }
 
         for(int i = 0; i < nums.length; i++) {
-            Integer other = numMap.get(target - nums[i]);
-
-            if(other == null || other == i) {
-                continue;
-            } else {
-                return new int[] {i, other};
+            int pairNum = target - nums[i];
+            if(numMap.containsKey(pairNum) && numMap.get(pairNum) != i) {
+                return new int[]{i, numMap.get(target - nums[i])};
             }
         }
 
-        return null;
+        return new int[2];
     }
 }
