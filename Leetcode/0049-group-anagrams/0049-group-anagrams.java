@@ -1,19 +1,20 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> anagramsMap = new HashMap<>();
+        Map<String, List<String>> anagramMap = new HashMap<>();
 
-        for (String str : strs) {
-            char[] charArr = str.toCharArray();
-            Arrays.sort(charArr);
-            String sortedStr = String.valueOf(charArr);
+        for(String str : strs) {
+            char[] charStr = str.toCharArray();
+            Arrays.sort(charStr);
+            String sortedStr = String.valueOf(charStr);
 
-            if (!anagramsMap.containsKey(sortedStr)) {
-                anagramsMap.put(sortedStr, new ArrayList<>());
+            if(!anagramMap.containsKey(sortedStr)) {
+                anagramMap.put(sortedStr, new ArrayList<>());
+
             }
-
-            anagramsMap.get(sortedStr).add(str);
+            
+            anagramMap.get(sortedStr).add(str);
         }
 
-        return new ArrayList<>(anagramsMap.values());
+        return new ArrayList<>(anagramMap.values());
     }
 }
