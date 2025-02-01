@@ -9,18 +9,18 @@
  *     }
  * }
  */
+ //시간복잡도: O(1)
+ //공간복잡도: O(1)
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        Set<ListNode> set = new LinkedHashSet<>();
+        ListNode slow = head;
+        ListNode fast = head;
 
-        ListNode cur = head;
-        while(cur != null && cur.next != null) {
-            if(set.contains(cur)) {
-                return true;
-            }
-            
-            set.add(cur);
-            cur = cur.next;
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(slow == fast) return true;
         }
 
         return false;
