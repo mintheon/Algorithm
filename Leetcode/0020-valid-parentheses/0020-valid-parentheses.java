@@ -2,23 +2,24 @@ class Solution {
     public boolean isValid(String s) {
         Deque<Character> stack = new LinkedList<>();
 
-        for(char c : s.toCharArray()) {
+        for(int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
             if(c == '(' || c == '[' || c == '{') {
-                stack.offerLast(c);
+                stack.push(c);
             } else {
                 if(stack.isEmpty()) {
                     return false;
                 }
 
-                char last = stack.pollLast();
-                if((c == ')' && last != '(')
-                    || (c == ']' && last != '[')
-                    || (c == '}' && last != '{')) {
-                        return false;
-                    }
+                char other = stack.pop();
+
+                if((other == '(' && c != ')') || (other == '[' && c != ']') || (other == '{' && c != '}')) {
+                    return false;
+                }
             }
         }
 
-        return stack.isEmpty();
+        return stack.isEmpty() ? true : false;
     }
 }
