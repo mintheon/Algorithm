@@ -1,25 +1,22 @@
 class Solution {
     public boolean isValid(String s) {
-        Deque<Character> stack = new LinkedList<>();
+        Deque<Character> stack = new ArrayDeque<>();
+
+        Map<Character, Character> table = Map.of(
+            ')', '(', 
+            ']', '[', 
+            '}', '{');
 
         for(int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-
-            if(c == '(' || c == '[' || c == '{') {
+            
+            if(!table.containsKey(c)) {
                 stack.push(c);
-            } else {
-                if(stack.isEmpty()) {
-                    return false;
-                }
-
-                char other = stack.pop();
-
-                if((other == '(' && c != ')') || (other == '[' && c != ']') || (other == '{' && c != '}')) {
-                    return false;
-                }
+            } else if(stack.isEmpty() || table.get(c) != stack.pop()) {
+                return false;
             }
         }
 
-        return stack.isEmpty() ? true : false;
+        return stack.size() == 0;
     }
 }
