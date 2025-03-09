@@ -1,51 +1,69 @@
 class MyCircularQueue {
+    int[] queue;
+    int empty;
+    int front;
+    int rear;
     int size;
-    Deque<Integer> queue = new LinkedList<>();
 
     public MyCircularQueue(int k) {
+        this.queue = new int[k];
+        this.empty = 0;
+        this.front = 0;
+        this.rear = 0;
         this.size = k;
+
+        for(int i = 0; i < k; i++) {
+            queue[i] = -1;
+        }
     }
     
     public boolean enQueue(int value) {
-        if(queue.size() >= size) {
+        if(isFull() || queue[empty] != -1) {
             return false;
         }
 
-        queue.offer(value);
+        queue[empty] = value;
+        rear = empty;
+        empty = (empty + 1) % size;
+
+        System.out.println("enque-value: " + value + ", front: " + front + ", rear: " + rear + ", empty:" + empty);
         return true;
     }
     
     public boolean deQueue() {
-        if(queue.isEmpty()) {
+        if(isEmpty() || queue[front] == -1) {
             return false;
         }
 
-        queue.poll();
+        queue[front] = -1;
+        front = (front + 1) % size;
+
+        System.out.println("deque-front: " + front + ", rear: " + rear + ", empty:" + empty);
         return true;
     }
     
     public int Front() {
-        if(queue.isEmpty()) {
+        if(isEmpty()) {
             return -1;
         }
 
-        return queue.peekFirst();
+        return queue[front];
     }
     
     public int Rear() {
-        if(queue.isEmpty()) {
+        if(isEmpty()) {
             return -1;
         }
 
-        return queue.peekLast();
+        return queue[rear];
     }
     
     public boolean isEmpty() {
-        return queue.isEmpty();
+        return queue[rear] == -1;
     }
     
     public boolean isFull() {
-        return queue.size() == size;
+        return queue[empty] != -1;
     }
 }
 
