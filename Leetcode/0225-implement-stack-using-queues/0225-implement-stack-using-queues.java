@@ -1,24 +1,28 @@
 class MyStack {
-    List<Integer> list;
+    Queue<Integer> queue;
 
     public MyStack() {
-        list = new ArrayList<>();
+        queue = new LinkedList<>();
     }
     
     public void push(int x) {
-        list.add(x);
+        queue.offer(x);
+
+        for(int i = 0; i < queue.size() - 1; i++) {
+            queue.offer(queue.poll());
+        }
     }
     
     public int pop() {
-        return list.removeLast();
+        return queue.poll();
     }
     
     public int top() {
-        return list.getLast();
+        return queue.peek();
     }
     
     public boolean empty() {
-        return list.isEmpty();
+        return queue.isEmpty();
     }
 }
 
