@@ -1,44 +1,33 @@
 class MyCircularQueue {
     int[] queue;
-    int empty;
     int front;
-    int rear;
+    int rear = -1;
     int size;
 
     public MyCircularQueue(int k) {
         this.queue = new int[k];
-        this.empty = 0;
-        this.front = 0;
-        this.rear = 0;
-        this.size = k;
-
-        for(int i = 0; i < k; i++) {
-            queue[i] = -1;
-        }
     }
     
     public boolean enQueue(int value) {
-        if(isFull() || queue[empty] != -1) {
+        if(isFull()) {
             return false;
         }
 
-        queue[empty] = value;
-        rear = empty;
-        empty = (empty + 1) % size;
+        this.rear = (this.rear + 1) % this.queue.length;
+        this.queue[rear] = value;
+        this.size++;
 
-        System.out.println("enque-value: " + value + ", front: " + front + ", rear: " + rear + ", empty:" + empty);
         return true;
     }
     
     public boolean deQueue() {
-        if(isEmpty() || queue[front] == -1) {
+        if(isEmpty()) {
             return false;
         }
 
-        queue[front] = -1;
-        front = (front + 1) % size;
+        this.front = (this.front + 1) % this.queue.length;
+        this.size--;
 
-        System.out.println("deque-front: " + front + ", rear: " + rear + ", empty:" + empty);
         return true;
     }
     
@@ -59,11 +48,11 @@ class MyCircularQueue {
     }
     
     public boolean isEmpty() {
-        return queue[rear] == -1;
+        return size == 0;
     }
     
     public boolean isFull() {
-        return queue[empty] != -1;
+        return size == this.queue.length;
     }
 }
 
