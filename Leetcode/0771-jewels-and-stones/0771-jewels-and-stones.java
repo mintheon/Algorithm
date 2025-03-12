@@ -1,20 +1,20 @@
-//시간복잡도: n
-//공간복잡도: n
+//시간복잡도: n + m
+//공간복잡도: n + m
 class Solution {
     public int numJewelsInStones(String jewels, String stones) {
-        Map<Character, Integer> counts = new HashMap<>();
+        Set<Character> set = new HashSet<>();
 
-        for(char stone : stones.toCharArray()) {
-            int count = counts.getOrDefault(stone, 0);
-
-            counts.put(stone, count + 1);
-        }
-
-        int answer = 0;
         for(char jewel : jewels.toCharArray()) {
-            answer += counts.getOrDefault(jewel, 0);
+            set.add(jewel);
         }
 
-        return answer;
+        int count = 0;
+        for(char stone : stones.toCharArray()) {
+            if(set.contains(stone)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
