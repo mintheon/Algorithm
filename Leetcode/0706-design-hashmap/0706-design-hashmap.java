@@ -1,25 +1,92 @@
 //시간복잡도: O(1)
 //공간복잡도: n
 
+class Node {
+    int key, val;
+    Node next;
+
+    Node(int key, int val) {
+        this.key = key;
+        this.val = val;
+    }
+}
+
 class MyHashMap {
 
-    int[] hashTables;
+    Node[] nodes;
 
     public MyHashMap() {
-        hashTables = new int[10_000_000];
-        Arrays.fill(hashTables, -1);
+        this.nodes = new Node[1_000_000];
+    }
+
+    public int hash(int key) {
+        return key % nodes.length;
     }
     
     public void put(int key, int value) {
-        hashTables[key] = value;
+        int hash = hash(key);
+
+        if(nodes[hash] == null) {
+            nodes[hash] = new Node(key, value);
+            return;
+        }
+
+        Node node = nodes[hash];
+        while(node != null) {
+            if(node.key == key) {
+                node.val = value;
+                return;
+            }
+
+            if(node.next == null) {
+                break;
+            }
+
+            node = node.next;
+        }
+
+        node.next = new Node(key, value);
     }
     
     public int get(int key) {
-        return hashTables[key];
+        int hash = hash(key);
+
+        if(nodes[hash] == null) {
+            return -1;
+        }
+
+        Node node = nodes[hash];
+        while(node != null) {
+
+            if(node.key == key) {
+                return node.val;
+            }
+
+            node = node.next;
+        }
+
+        return -1;
     }
     
     public void remove(int key) {
-        hashTables[key] = -1;
+        int hash = hash(key);
+
+        if(nodes[hash] == null) {
+            return;
+        }
+
+        Node node = nodes[hash];
+        if(node.key == key) {
+            nodes[hash] = node.next;
+            return;
+        }
+
+        while(node.next != null) {
+            if(node.next.key == key) {
+                node.next = node.next.next;
+                return;
+            }
+        }
     }
 }
 
