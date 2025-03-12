@@ -1,37 +1,25 @@
 //시간복잡도: O(1)
 //공간복잡도: n
-class HashTable {
-    int key;
-    int value;
-
-    public HashTable(int key, int value) {
-        this.key = key;
-        this.value = value;
-    }
-}
 
 class MyHashMap {
 
-    HashTable[] hashTables;
+    int[] hashTables;
 
     public MyHashMap() {
-        hashTables = new HashTable[10_000_000];
+        hashTables = new int[10_000_000];
+        Arrays.fill(hashTables, -1);
     }
     
     public void put(int key, int value) {
-        hashTables[key] = new HashTable(key, value);
+        hashTables[key] = value;
     }
     
     public int get(int key) {
-        if(hashTables[key] == null) {
-            return -1;
-        }
-
-        return hashTables[key].value;
+        return hashTables[key];
     }
     
     public void remove(int key) {
-        hashTables[key] = null;
+        hashTables[key] = -1;
     }
 }
 
