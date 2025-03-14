@@ -1,3 +1,5 @@
+//시간 복잡도: O(n! * n)
+//공간 복잡도: O(n * n!)
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> answer = new ArrayList<>();
