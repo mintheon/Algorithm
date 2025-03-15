@@ -1,8 +1,4 @@
-//2,3,6,7 -> 7
-//2 2 3 -> 7
-//2 2 6,7 -> sorting
-//7 -> 7
-
+//시간복잡도: O(2^n)
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> answer = new ArrayList<>();
@@ -13,29 +9,19 @@ class Solution {
     }
 
     public void dfs(List<List<Integer>> answer, int[] candidates, int index, int target, List<Integer> sumNums) {
-        int sumNum = sum(sumNums);
-        if(sumNum == target) {
+        if(target == 0) {
             answer.add(new ArrayList<>(sumNums));
             return;
         }
 
-        if(sumNum > target) {
+        if(target < 0) {
             return;
         }
 
         for(int i = index; i < candidates.length; i++) {
             sumNums.add(candidates[i]);
-            dfs(answer, candidates, i, target, sumNums);
+            dfs(answer, candidates, i, target - candidates[i], sumNums);
             sumNums.removeLast();
         }
-    }
-
-    public int sum(List<Integer> nums) {
-        int sum = 0;
-        for(int num : nums) {
-            sum += num;
-        }
-
-        return sum;
     }
 }
