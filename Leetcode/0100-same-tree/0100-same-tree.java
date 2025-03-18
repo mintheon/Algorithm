@@ -17,10 +17,11 @@
  //공간복잡도: O(n)
 class Solution {
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        if(p == null) {
-            return q == null;
-        } else if(q == null) {
-            return p == null;
+        if(p == null && q == null) {
+            return true;
+        }
+        if(q == null || p == null) {
+            return false;
         }
 
         if(p.val != q.val) {
