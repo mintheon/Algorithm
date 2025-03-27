@@ -1,41 +1,36 @@
 class Solution {
-    // 시간 복잡도: O(log n)
-    // 공간 복잡도: O(1);
     public int search(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length - 1;
-
-        while(left <= right) {
-            int mid = (left + right) / 2;
-
-            if(nums[mid] > nums[nums.length - 1]) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-
-        int answer = binarySearch(nums, 0, left - 1, target);
-        
-        return answer != -1 ? answer : binarySearch(nums, left, nums.length - 1, target);
-    }
-
-    private int binarySearch(int[] nums, int leftIndex, int rightIndex, int target) {
-        int left = leftIndex;
-        int right = rightIndex;
-
-        while(left <= right) {
-            int mid = (left + right) / 2;
-
-            if(nums[mid] == target) {
+        int n = nums.length;
+        int hi = n - 1;
+        int lo = 0;
+        while (lo <= hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (target == nums[mid])
                 return mid;
-            } else if (nums[mid] < target) {
-                left = mid + 1;
+            if (nums[mid] < nums[hi]) {
+                if (target < nums[mid]) {
+                    hi = mid - 1;
+                } else if (target > nums[hi]) {
+                    hi = mid - 1;
+                } else {
+                    lo = mid + 1;
+                }
             } else {
-                right = mid - 1;
+                if (target > nums[mid]) {
+                    lo = mid + 1;
+                } else if (target < nums[0]) {
+                    lo = mid + 1;
+                } else {
+                    hi = mid - 1;
+                }
             }
-        }
 
+        }
         return -1;
     }
 }
+
+// 4,5,6,7,0,1,2
+// l m r
+// 如果m > l 左边就是有序的, 否则右边就是有序的
+// 先判断是否我们要的target是不是在有序的那边
