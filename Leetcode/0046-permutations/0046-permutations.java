@@ -1,32 +1,26 @@
-//1 2 4
-//124
-//1 2 + 4
-//1 + 2
-//1
-
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> answer = new ArrayList<>();
 
-        dfs(answer, nums, new ArrayList<>());
+        permutations(nums, answer, new LinkedList<>());
 
         return answer;
     }
 
-    public void dfs(List<List<Integer>> answer, int[] nums, List<Integer> permuteNums) {
+    public void permutations(int[] nums, List<List<Integer>> answer, List<Integer> permuteNums) {
         if(permuteNums.size() == nums.length) {
             answer.add(new ArrayList<>(permuteNums));
             return;
         }
 
-        for(Integer num : nums) {
-            if(permuteNums.contains(num)) {
+        for(int i = 0; i < nums.length; i++) {
+            if(permuteNums.contains(nums[i])) {
                 continue;
             }
 
-            permuteNums.add(num);
-            dfs(answer, nums, permuteNums);
-            permuteNums.remove(num);
+            permuteNums.add(nums[i]);
+            permutations(nums, answer, permuteNums);
+            permuteNums.remove(permuteNums.size() - 1);
         }
     }
 }
