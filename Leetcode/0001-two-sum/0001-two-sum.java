@@ -1,23 +1,15 @@
-//시간복잡도: O(n)
-//공간복잡도: O(1)
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> positions = new HashMap<>();
+        Map<Integer, Integer> indexMap = new HashMap<>();
 
         for(int i = 0; i < nums.length; i++) {
-            positions.put(nums[i], i);
-        }
+            int remain = target - nums[i];
 
-        for(int i = 0; i < nums.length; i++) {
-            if(!positions.containsKey(target - nums[i])) {
-                continue;
+            if(indexMap.containsKey(remain)) {
+                return new int[] {i, indexMap.get(remain)};
             }
 
-            int position = positions.get(target - nums[i]);
-            
-            if(position != i) {
-                return new int[]{i, position};
-            }
+            indexMap.put(nums[i], i);
         }
 
         return new int[]{};
