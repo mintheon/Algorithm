@@ -3,12 +3,12 @@ class Solution {
         var maxDigit: Char? = null
 
         for(i in 0 until num.length - 2) {
+            println(i)
             if(num[i] == num[i + 1] && num[i] == num[i + 2]) {
-                println("maxDigit: ${maxDigit}, num[i]: ${num[i]}")
-                maxDigit = if (maxDigit == null) {
-                    num[i]
-                } else {
-                    maxOf(maxDigit.digitToInt(), num[i].digitToInt()).digitToChar()
+                val currentDigit = num[i]
+
+                if (maxDigit == null || currentDigit > maxDigit) {
+                    maxDigit = currentDigit
                 }
             }
         }
